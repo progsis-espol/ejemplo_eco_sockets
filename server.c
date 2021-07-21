@@ -7,7 +7,7 @@ void atender_cliente(int connfd);
 
 void print_help(char *command)
 {
-	printf("Servidor simple de descarga de archivos.\n");
+	printf("Servidor eco de mensajes.\n");
 	printf("uso:\n %s <puerto>\n", command);
 	printf(" %s -h\n", command);
 	printf("Opciones:\n");
@@ -78,6 +78,8 @@ int main(int argc, char **argv)
 
 		close(connfd);
 	}
+
+	return 0;
 }
 
 void atender_cliente(int connfd)
@@ -91,19 +93,6 @@ void atender_cliente(int connfd)
 			return;
 
 		printf("Recibido: %s", buf);
-
-		//Detecta "CHAO" y se desconecta del cliente
-		if(strcmp(buf, "CHAO\n") == 0){
-			write(connfd, "BYE\n", 4);
-			return;
-		}
-
-		//Detecta "KILL", se desconecta del cliente y termina
-		if(strcmp(buf, "KILL\n") == 0){
-			write(connfd, "BYE\n", 4);
-			seguir = false;
-			return;
-		}
 
 		//Reenvía el mensaje al cliente
 		n = write(connfd, buf, n);

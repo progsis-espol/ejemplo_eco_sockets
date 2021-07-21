@@ -1,6 +1,0 @@
-DIR_TESTS=".tests"
-
-.PHONY: test
-test:
-	@bash $(DIR_TESTS)/test_output.sh
-

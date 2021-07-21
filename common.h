@@ -48,12 +48,4 @@ int open_clientfd(char *hostname, char *port);
  */
 void connection_error(int connfd);
 
-/**
- * Function for internal tests.
- *
- * @param test_str Test string.
- * @param clientfd Socket file descriptor.
- */
-void test(char *test_str, int clientfd);
-
 #endif /* COMMON_H */

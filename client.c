@@ -5,14 +5,12 @@
 
 void print_help(char *command)
 {
-	printf("Cliente simple de descarga de archivos.\n");
+	printf("Cliente simple de envio de mensajes.\n");
 	printf("uso:\n %s <hostname> <puerto>\n", command);
 	printf(" %s -h\n", command);
 	printf("Opciones:\n");
 	printf(" -h\t\t\tAyuda, muestra este mensaje\n");
 }
-
-bool tflag = false;
 
 int main(int argc, char **argv)
 {
@@ -28,18 +26,13 @@ int main(int argc, char **argv)
 	char read_buffer[MAXLINE] = {0};
 	size_t max = MAXLINE;
 	ssize_t n, l = 0;
-	char *test_str = NULL;
 
-	while ((opt = getopt (argc, argv, "ht:")) != -1){
+	while ((opt = getopt (argc, argv, "h")) != -1){
 		switch(opt)
 		{
 			case 'h':
 				print_help(argv[0]);
 				return 0;
-			case 't':
-				tflag = true;
-				test_str = optarg;
-				break;
 			default:
 				fprintf(stderr, "uso: %s <hostname> <puerto>\n", argv[0]);
 				fprintf(stderr, "     %s -h\n", argv[0]);
@@ -76,13 +69,8 @@ int main(int argc, char **argv)
 
 	printf("Conectado exitosamente a %s en el puerto %s.\n", hostname, port);
 
-	/* Código para testing y grading automático, no remover */
-	/*********************************************/
-	if(tflag) test(test_str, clientfd);
-	/*********************************************/
-
 	linea_consola = (char *) calloc(1, MAXLINE);
-	printf("Ingrese texto para enviar al servidor, escriba CHAO para terminar...\n");
+	printf("Ingrese texto para enviar al servidor, Ctrl+c para terminar...\n");
 	printf("> ");
 	l = getline(&linea_consola, &max, stdin); //lee desde consola
 	while(l > 0){

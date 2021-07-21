@@ -72,48 +72,5 @@ void connection_error(int connfd)
 {
 	fprintf(stderr, "Error de conexión: %s\n", strerror(errno));
 	close(connfd);
-	exit(-1);
+	exit(1);
 }
-
-/* Código para testing y grading automático, no remover */
-/*********************************************/
-void test(char *test_str, int clientfd)
-{
-    int n, fd;
-    char buffer[MAXLINE] = {0};
-
-    fd = open("test", O_CREAT | O_TRUNC | O_WRONLY, 0644);
-
-    if((fd != -1) && test_str){
-        int l = strlen(test_str);
-        if(l >= MAXLINE)
-            exit(1);
-
-        strcpy(buffer, test_str);
-        buffer[l] = '\n';
-
-        n = write(clientfd, buffer, l+1);
-        if(n <= 0)
-            exit(1);
-        memset(buffer,0,MAXLINE);
-        n = read(clientfd, buffer, MAXLINE);
-        if(n <= 0)
-            exit(1);
-
-        write(fd,buffer,strlen(buffer));
-        close(fd);
-
-        n = write(clientfd, "KILL\n", 5);
-        if(n <= 0)
-            exit(1);
-
-        n = read(clientfd, buffer, MAXLINE);
-        if(n <= 0)
-            exit(1);
-
-        exit(0);
-    }
-
-    exit(1);
-}
-/*********************************************/
