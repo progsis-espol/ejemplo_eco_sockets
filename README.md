@@ -1,55 +1,26 @@
-# Taller uso de sockets
-Taller sobre uso básico de sockets en Linux usando C para la materia Programación de Sistemas (CCPG1051) de la ESPOL.
+# Ejemplo uso de sockets en C
+Este repositorio contiene código ejemplo que demuestra el uso básico de sockets en C usando una aplicación *eco* cliente - servidor. En este ejemplo, el usuario ingresa una línea de texto desde el cliente, el cliente la envia al servidor y el servidor la envia de regreso. El código de esta aplicación está basado en el capítulo 11 de [Computer Systems: A Programmer's Perspective](http://csapp.cs.cmu.edu/3e/home.html).
 
-## Instrucciones
-La práctica consiste en crear una aplicación cliente - servidor para generar un hash SHA-1 a partir de una cadena de caracteres:
-1. El cliente debe enviar al servidor la cadena de caracteres.
-2. El servidor debe usar la cadena de caracteres recibida, ignorando el salto de línea al final, y generar un hash SHA-1. Usar [crypto-algorithms](https://github.com/B-Con/crypto-algorithms).
-3. El servidor debe enviar el hash SHA-1 en formato hexadecimal en texto terminado con un salto de línea al cliente.
-
-Toda comunicación entre cliente y servidor debe ser enviada en modo texto con salto de línea al final.
-
+## Uso
 Para ejecutar el servidor se debe especificar como argumento el puerto TCP, por ejemplo:
 ```
-$ ./server 8080
+./server 8080
 server escuchando en puerto 8080...
 ```
 
 Asumiendo que el servidor esta corriendo en una maquina con la IP 192.168.100 en el puerto 8080, ejemplo de ejecución del cliente:
 ```
-$ ./client 192.168.100 8080
+./client 192.168.100 8080
 Conectado exitosamente a 192.168.100 en el puerto 8080.
-Ingrese texto para enviar al servidor, escriba CHAO para terminar...
-> hola
-Recibido: 99800b85d3383e3a2fb45eb7d0066a4879a9dad0
+Ingrese texto para enviar al servidor, Ctrl+c para terminar...
 > 
 ```
 Si el servidor esta en la misma máquina, entonces es necesario abrir otra ventana/tab de terminal y ejecutar el cliente de esta forma:
 ```
 $ ./client 127.0.0.1 8080
 Conectado exitosamente a 127.0.0.1 en el puerto 8080.
-Ingrese texto para enviar al servidor, escriba CHAO para terminar...
+Ingrese texto para enviar al servidor, Ctrl+c para terminar...
 > 
-```
-
-## Código ejemplo
-Este repositorio contiene código ejemplo de una aplicación *eco* cliente - servidor. Es decir, el usuario ingresa una línea de texto desde el cliente, el cliente la envia al servidor y el servidor la envia de regreso.
-
-## Entregable
-Modificar el código ejemplo en este repositorio para implementar la aplicación cliente - servidor de hashing SHA-1.
-
-### TIPS
-Es necesario modificar solamente el servidor, es decir *server.c*, el *Makefile* y agregar los archivos para implementar SHA-1 (ver [crypto-algorithms](https://github.com/B-Con/crypto-algorithms)).
-
-Además, es importante considerar que el hash debe ser enviado por el socket en formato hexadecimal en texto (en lugar de directamente en binario). Para esto, se puede usar esta función la cual convierte un buffer binario a una cadena de caracteres en hexadecimal con un salto de línea al final:
-```C
-void sprint_hex(char *output, const unsigned char* input, size_t size)
-{
-    int i;
-    for(i = 0; i < size; ++i)
-        sprintf(output + 2*i, "%02x", input[i]);
-    sprintf(output + 2*i, "\n");
-}
 ```
 
 ## Compilación
@@ -68,10 +39,4 @@ $ make debug
 Para compilar cliente y servidor habilitando la herramienta AddressSanitizer, facilita la depuración en tiempo de ejecución:
 ```
 $ make sanitize
-```
-
-## Test
-Para probar el test de autocalificación:
-```
-$ make -f Testfile
 ```
